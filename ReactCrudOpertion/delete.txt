@@ -1,0 +1,98 @@
+export default class viewSurvey extends React.Component{
+  constructor() {
+    super()
+    this.state = { 
+items:[],
+
+  }
+this.removeItem=this.removeItem.bind(this);
+} 
+
+componentDidMount() {
+  axios.get('http://localhost:3000/admin/Quiz')
+  .then(res => {
+      this.setState({
+        items:res.data
+      });
+      console.log("students: ",this.state.items);
+      
+  })
+}
+ 
+  removeItem(itemId) {
+    axios.delete(`http://localhost:3000/admin/deletequiz/${itemId}`)
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+            // this.forceUpdate()
+            
+          })
+  }
+  render(){
+    
+      
+
+
+      return(
+      
+        <div >
+ 
+            <div >
+    
+          </div>
+            <center style={{marginLeft:-60}}>
+        <ul>
+        
+          {this.state.items.map((item) => {
+            return (
+
+<li key={item.id}>      
+
+         <div id="login-container">
+
+
+  
+  <h1>
+   Question
+  </h1>
+  <div class="description">
+  {item.question}
+  </div>
+  <div class="social">
+    <a>{item.option1}</a>
+    <a>{item.option2}</a>
+    <a>{item.option3}</a>
+    <a>{item.option4}</a>
+  </div>
+
+  <div >
+ <center>  <h3>
+   Correct Answer
+  </h3>
+    <a>{item.correct}</a>
+    </center>
+
+    </div>
+    <div style={{display:'flex',flexDirection:'row'}}>
+  <button onClick={() => this.removeItem(item.id)}>Remove</button>
+
+  <button onClick={()=>this.displayQuestion(item.id)}>Update</button>
+  <div id="name" style={{marginLeft:30,marginTop:-230}}></div>     
+  </div>
+ 
+</div>
+               
+            
+  
+           
+        
+              </li>
+            )
+          })}
+        </ul>
+        </center>
+      </div>
+      )
+  }
+
+}

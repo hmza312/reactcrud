@@ -1,0 +1,118 @@
+  router.get('/viewmarks/:id', function(req, res, next) {
+    Marks.findById(req.params.id)
+        .then((teacher) => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(teacher);
+        }, (err) => next(err))
+        .catch((err) => next(err));
+
+});
+
+REACT:
+export default class viewSurvey extends React.Component{
+  constructor() {
+    super()
+    this.state = { 
+    
+        name: "",
+
+    
+        eamil:"",
+      
+      phone:"",
+      
+   
+items:[],
+
+  }
+ 
+  
+  this.handleChange = this.handleChange.bind(this);
+  this.handleSubmit = this.handleSubmit.bind(this); 
+  this.removeItem=this.removeItem.bind(this);
+ 
+}
+ 
+componentDidMount() {
+  axios.get(`http://localhost:3000/admin/viewmarks/${itemId}`)
+  .then(res => {
+      this.setState({
+        items:res.data
+      });
+      console.log("booking: ",this.state.items);
+      
+  })
+}
+  
+  
+
+  
+ 
+  render(){
+    
+      
+
+
+      return(
+      
+        <div >
+ 
+            <div >
+    
+
+
+    
+          </div>
+
+
+   
+
+            <center style={{marginLeft:-60}}>
+        <ul>
+        
+          {this.state.items.map((item) => {
+         //   console.log(item.question)
+    
+            
+         
+            return (
+
+<li key={item.id}>      
+
+         <div id="login-container">
+
+
+  
+  <h1>
+   Name
+  </h1>
+  <div class="description">
+  {item.name}
+  </div>
+ 
+
+ 
+    <div style={{display:'flex',flexDirection:'row'}}>
+  <button onClick={() => this.removeItem(item._id)}>Remove</button>
+
+  <button onClick={()=>this.displayQuestion(item._id)}>Update</button>
+  <div id="name" style={{marginLeft:30,marginTop:-230}}></div>     
+  </div>
+ 
+</div>
+               
+            
+  
+           
+        
+              </li>
+            )
+          })}
+        </ul>
+        </center>
+      </div>
+      )
+  }
+
+}
